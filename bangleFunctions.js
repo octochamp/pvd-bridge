@@ -1,29 +1,4 @@
-/* Puck.write("Bangle.setLCDPower(1)");
-Puck.write("\n");
-Puck.write("\n Bangle.setLCDTimeout(0)");
-Puck.write("\n");
-Puck.write("\n g.clear(1)");
-Puck.write("\n");
-Puck.write("\n g.setBgColor(-1)");
-Puck.write("\n");
-Puck.write("\n g.setColor(1)");
-Puck.write("\n");
-Puck.write("\n g.clear()");
-Puck.write("\n");
-Puck.write("\n g.setFontAlign(0,0,0)");
-Puck.write("\n");
-Puck.write("\n g.setFont('Vector:20')");
-Puck.write("\n");
-Puck.write("\n g.drawString('initialising...', 88, 88)");
-Puck.write("\n");
-Puck.write("\n g.setFont('Vector:40')");
-Puck.write("\n");
-Puck.write("\n g.setBgColor(0,0,1)");
-Puck.write("\n");
-Puck.write("\n g.setColor(-1)");
-Puck.write("\n");
-Puck.write("\n g.clear()");
- */
+
 async function setLCDPower(power) {
     await Puck.write("Bangle.setLCDPower("+power+"); \n");
 }
@@ -57,7 +32,7 @@ async function setFontSizeSmall() {
 }
 
 async function setFontSizeBig() {
-    await Puck.write("g.setFont('12x20', 2); \n");
+    await Puck.write("g.setFont('12x20', 3); \n");
 }
 
 async function drawString(text) {

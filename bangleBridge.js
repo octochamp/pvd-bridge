@@ -26,14 +26,13 @@ async function pvdInit() {
     console.log("Initalising PVD");
     await setLCDPower('1');
     await setLCDTimeout('0');
-    // await clearScreenAll();
-    //await setBgColor('-1');
-    // await setColor('0,0,0');
-    // await clearScreen();
+    await clearScreenAll();
+    await setBgColor('-1');
+    await setColor('0,0,0');
+    await clearScreen();
     await setFontAlignCentre();
-    await setFontSizeBig();
+    await setFontSizeSmall();
     await drawString('INITIALISING');
-    // await setFontSizeBig();
     await setBgColor('0,0,0');
     await setColor('-1');
     await clearScreen();
@@ -41,7 +40,7 @@ async function pvdInit() {
 }
 
 async function startChecking() {
-    // await pvdInit();
+    await pvdInit();
     interval = 5000;
     intervalId = setInterval(checkProcess, interval); // Re-read the .txt file every 5 seconds
     return;
@@ -61,7 +60,8 @@ async function checkProcess() {
                     console.log("Text says TRUE");
 
                     // Bangle commands:
-                    await vibrate(100);
+                    await vibrate(200);
+                    await setFontSizeBig();
                     await setBgColor('0,1,0');
                     await clearScreen();
                     await drawString('True');
@@ -74,6 +74,7 @@ async function checkProcess() {
 
                     // Bangle commands:
                     await vibrate(2000);
+                    await setFontSizeBig();
                     await setBgColor('1,0,0');
                     await clearScreen();
                     await drawString('False');
@@ -83,9 +84,10 @@ async function checkProcess() {
                 } else if (fileText === "x") {
                     console.log("Listening");
                     // Bangle commands:
+                    await setFontSizeSmall();
                     await setBgColor('0,0,1');
                     await clearScreen();
-                    await drawString('listening');
+                    await drawString('listening...');
                     tempFile = fileText;
                     return;
 
