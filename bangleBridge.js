@@ -1,5 +1,5 @@
 let fileHandle; // Store the reference to the file handle
-let interval = 1000;
+let interval = 5000;
 
 function connectBangle() {
     let connected = false;
