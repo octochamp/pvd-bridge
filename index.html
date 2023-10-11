@@ -11,8 +11,9 @@
     </head>
     <body>
         <h1><strong>Passive Verification Device</strong> AI => Bangle.js bridge</h1>
-        <button onclick="connectBangle()">Connect Bangle.js</button>
-        <button onclick="checkAiOutput()">Select .txt file and start process</button>
-        <button onclick="stopChecking()">Stop file monitoring process</button>
+        <button id="connectButton" onclick="connectBangle()">Connect Bangle.js</button>
+        <button id="selectButton" onclick="selectFile()">Select .txt file</button>
+        <button id="startButton" onclick="startChecking()" disabled>Start</button>
+        <button id="stopButton" onclick="stopChecking()" disabled>Stop</button>
     </body>
 </html>
