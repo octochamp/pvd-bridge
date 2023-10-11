@@ -7,13 +7,33 @@
         <title>PVD AI => Bangle.js Bridge</title>
         <link rel="stylesheet" href="style.css">
         <script src="bangleBridge.js"></script>
-        <script src="https://www.puck-js.com/puck.js"></script>
+        <script src="bangleFunctions.js"></script>
+        <script src="puck.js"></script>
     </head>
     <body>
         <h1><strong>Passive Verification Device</strong> AI => Bangle.js bridge</h1>
         <button id="connectButton" onclick="connectBangle()">Connect Bangle.js</button>
+        <button id="initialisePvd" onclick="pvdInit()">Initialise PVD</button>
         <button id="selectButton" onclick="selectFile()">Select .txt file</button>
         <button id="startButton" onclick="startChecking()" disabled>Start</button>
         <button id="stopButton" onclick="stopChecking()" disabled>Stop</button>
+        <br>
+        <button onclick="clearScreen()">Debug: Clear</button>
+        <button onclick="setFontSizeBig()">Debug: Big font</button>
+        <button onclick="setFontSizeSmall()">Debug: Small font</button>
+        <button onclick="drawString('TEST')">Debug: Draw Text</button>
+        <button onclick="vibrate(200)">Debug: Vibrate</button>
+        <br>
+        <br>
+        <h2>Boot functions</h2>
+        <button onclick="setLCDPower('1')">Step 1: Set LCD Power</button><br>
+        <button onclick="setLCDTimeout('0')">Step 2: Set LCD Timeout</button><br>
+        <button onclick="clearScreenAll()">Step 3: Clear All</button><br>
+        <button onclick="setFontAlignCentre()">Step 4: Set Font alignment</button><br>
+        <button onclick="setFontSizeBig()">Step 5: Set Font size</button><br>
+        <button onclick="setBgColor('0,0,0')">Step 6: Set Background colour</button><br>
+        <button onclick="setColor('-1')">Step 7: Set Font colour</button><br>
+        <button onclick="clearScreen()">Step 8: Clear screen</button><br>
+
     </body>
 </html>

@@ -1,5 +1,6 @@
 let fileHandle; // Store the reference to the file handle
 let interval;
+let tempFile = "init";
 
 function connectBangle() {
     let connected = false;
@@ -21,9 +22,26 @@ async function selectFile() {
     return;
 }
 
+async function pvdInit() {
+    console.log("Initalising PVD");
+    await setLCDPower('1');
+    await setLCDTimeout('0');
+    // await clearScreenAll();
+    //await setBgColor('-1');
+    // await setColor('0,0,0');
+    // await clearScreen();
+    await setFontAlignCentre();
+    await setFontSizeBig();
+    await drawString('INITIALISING');
+    // await setFontSizeBig();
+    await setBgColor('0,0,0');
+    await setColor('-1');
+    await clearScreen();
+    return;
+}
+
 async function startChecking() {
-    checkProcess();
-    Puck.write("Bangle.setLCDPower(1); \n Bangle.setLCDTimeout(0);")
+    // await pvdInit();
     interval = 5000;
     intervalId = setInterval(checkProcess, interval); // Re-read the .txt file every 5 seconds
     return;
@@ -32,26 +50,51 @@ async function startChecking() {
 async function checkProcess() {
      if (fileHandle != 0) {
         document.getElementById("stopButton").removeAttribute("disabled");
-        document.getElementById("startButton").setAttribute("disabled", "");
+        /* document.getElementById("startButton").setAttribute("disabled", ""); */
         try {
             const file = await fileHandle[0].getFile();
             const blob = await file.text(); // Read the contents of the file as a Blob
-
             const fileText = await new Response(blob).text();
 
-            if (fileText === "true") {
-                console.log("Text says TRUE");
-                Puck.write("g.setBgColor(0,1,0); \n g.clear(); \n g.setFont('Vector', 60); \n g.drawString('True');")
-                return;
-            } else if (fileText === "false") {
-                console.log("Text says FALSE")
-                Puck.write("g.setBgColor(1,0,0); \n g.clear(); \n g.setFont('Vector', 60); \n g.drawString('False');")
-                Puck.write("Bangle.buzz();\n Bangle.buzz();\n Bangle.buzz();\n")
-                return;
-            } else {
-                console.log("Error: Invalid input (neither true nor false)");
-                return;
-            }
+            if (fileText !== tempFile) {
+                if (fileText === "T") {
+                    console.log("Text says TRUE");
+
+                    // Bangle commands:
+                    await vibrate(100);
+                    await setBgColor('0,1,0');
+                    await clearScreen();
+                    await drawString('True');
+
+                    tempFile = fileText;
+                    return;
+
+                } else if (fileText === "F") {
+                    console.log("Text says FALSE");
+
+                    // Bangle commands:
+                    await vibrate(2000);
+                    await setBgColor('1,0,0');
+                    await clearScreen();
+                    await drawString('False');
+                    tempFile = fileText;
+                    return;
+
+                } else if (fileText === "x") {
+                    console.log("Listening");
+                    // Bangle commands:
+                    await setBgColor('0,0,1');
+                    await clearScreen();
+                    await drawString('listening');
+                    tempFile = fileText;
+                    return;
+
+                } else {
+                    console.log("File is empty or contains invalid content");
+                    return;
+                }
+            } else { return; }
+
         } catch (error) {
             console.error('Error fetching file: ' + error.message);
             return;
@@ -63,7 +106,8 @@ async function checkProcess() {
 
 function stopChecking() {
     clearInterval(intervalId);
-    Puck.write("Bangle.setLCDPower(0.5); \n Bangle.setLCDTimeout(5);")
+    setLCDPower(0);
+    setLCDTimeout(5);
     document.getElementById("startButton").removeAttribute("disabled");
     document.getElementById("stopButton").setAttribute("disabled", "");
 }
