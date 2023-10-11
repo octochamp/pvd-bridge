@@ -1,14 +1,27 @@
+let fileHandle; // Store the reference to the file handle
+let interval = 1000;
+
+const stopChecking = () => {clearInterval(intervalId)};
+
 async function checkAiOutput() {
-    console.log("Running checkAiOutput...");
+    if (!fileHandle) {
+        try {
+            fileHandle = await window.showOpenFilePicker();
+        } catch (error) {
+            console.error('Error selecting file: ' + error.message);
+            return;
+        }
+    }
 
     try {
-        const [fileHandle] = await window.showOpenFilePicker();
-        const file = await fileHandle.getFile();
-        const text = await file.text();
+        const file = await fileHandle[0].getFile();
+        const blob = await file.text(); // Read the contents of the file as a Blob
 
-        if (text === "true") {
+        const fileText = await new Response(blob).text();
+
+        if (fileText === "true") {
             console.log("Text says TRUE");
-        } else if (text === "false") {
+        } else if (fileText === "false") {
             console.log("Text says FALSE");
         } else {
             console.log("Error: Invalid input (neither true nor false)");
@@ -18,4 +31,5 @@ async function checkAiOutput() {
     }
 }
 
-checkAiOutput();
+// Set up a periodic timer to re-read the file
+intervalId = setInterval(checkAiOutput, interval); // Re-read the file every 5 seconds
