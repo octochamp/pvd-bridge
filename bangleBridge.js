@@ -1,15 +1,23 @@
 function checkAiOutput() {
+    console.log("Running checkAiOutput...")
+    const xhr = new XMLHttpRequest();
 
-const xhr = new XMLHttpRequest();
+    xhr.open('GET', "test.txt");
+    xhr.onload = () => {
+    if (xhr.status === 200) {
+        const text = xhr.responseText;
 
-xhr.open('GET', '/path/to/your/textfile.txt');
-xhr.onload = () => {
-  if (xhr.status === 200) {
-    const text = xhr.responseText;
-    // do something with the text, like using it in an if/else conditional
-  } else {
-    console.error('Error fetching file: ' + xhr.statusText);
-  }
-};
-xhr.send();
-};
+            if (text === "true") {
+                console.log("Text says TRUE");
+            } else if (text === "false") {
+                console.log("Text says FALSE");
+            } else {
+                console.log("Error: Invalid input (neither true nor false");
+            }
+    
+        } else {
+        console.error('Error fetching file: ' + xhr.statusText);
+    }
+    };
+    xhr.send();
+}
